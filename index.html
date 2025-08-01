@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Health-Navigator (GHQ-12)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- ===== Экран 1: Приветствие ===== -->
+        <div id="welcome-screen" class="screen active">
+            <div class="content">
+                <img src="https://i.ibb.co/9gX4pNd/heart-rate.png" alt="icon" class="welcome-icon">
+                <h1>Health-Navigator</h1>
+                <p>Оцените свое психологическое состояние с помощью научного опросника GHQ-12 и получите персональные рекомендации.</p>
+                <p class="disclaimer">Внимание: Тест не является медицинским диагнозом, а служит инструментом самооценки. При серьезных опасениях проконсультируйтесь с врачом.</p>
+                <button id="start-btn" class="btn">Начать диагностику</button>
+            </div>
+        </div>
+
+        <!-- ===== Экран 2: Тест ===== -->
+        <div id="test-screen" class="screen">
+            <div id="home-btn" class="header-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"/></svg>
+            </div>
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+            <div id="question-container">
+                <!-- Вопросы будут вставляться сюда с помощью JS -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="back-question-btn" class="btn btn-secondary">Назад</button>
+                <button id="next-question-btn" class="btn" disabled>Далее</button>
+            </div>
+        </div>
+        
+        <!-- ===== Экран 3: Результаты ===== -->
+        <div id="results-screen" class="screen">
+            <div class="content">
+                <h2>Ваши результаты</h2>
+                <p>Анализ вашего психологического состояния на основе опросника GHQ-12.</p>
+                
+                <div id="result-summary" class="result-card">
+                    <h3>Общий уровень дистресса</h3>
+                    <div id="overall-score"></div>
+                    <p id="overall-interpretation"></p>
+                </div>
+
+                <h3>Персональные рекомендации</h3>
+                <div id="recommendations">
+                    <!-- Рекомендации будут вставлены сюда -->
+                </div>
+                
+                 <p class="disclaimer">Помните, что результаты теста — это не диагноз, а повод задуматься о своем благополучии. При необходимости обратитесь к специалисту.</p>
+                
+                 <!-- ИЗМЕНЕНИЕ ЗДЕСЬ -->
+                <button id="back-to-main-btn" class="btn">На главную</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== Модальное окно подтверждения ===== -->
+    <div id="modal-confirm" class="modal-overlay">
+        <div class="modal-content">
+            <h4>Завершить тест?</h4>
+            <p>Ваш текущий прогресс будет потерян. Вы уверены, что хотите выйти в главное меню?</p>
+            <div class="modal-buttons">
+                <button id="modal-btn-no" class="btn btn-secondary">Нет</button>
+                <button id="modal-btn-yes" class="btn">Да, выйти</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
