@@ -1,223 +1,160 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // --- ИНИЦИАЛИЗАЦИЯ TELEGRAM WEB APP ---
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-    }
+document.addEventListener('DOMContentLoaded', function () {
+    const tg = window.Telegram.WebApp;
+    tg.ready(); // Сообщаем Telegram, что приложение готово к отображению
+    tg.expand(); // Растягиваем приложение на весь экран
 
-    // --- ЭЛЕМЕНТЫ DOM ---
-    const screens = {
-        welcome: document.getElementById('welcome-screen'),
-        test: document.getElementById('test-screen'),
-        results: document.getElementById('results-screen')
-    };
-    
-    const startBtn = document.getElementById('start-btn');
-    const nextQuestionBtn = document.getElementById('next-question-btn');
-    const backToMainBtn = document.getElementById('back-to-main-btn'); // <-- ИЗМЕНЕНИЕ
-    const backQuestionBtn = document.getElementById('back-question-btn');
-    const homeBtn = document.getElementById('home-btn');
-    
-    const modal = document.getElementById('modal-confirm');
-    const modalBtnYes = document.getElementById('modal-btn-yes');
-    const modalBtnNo = document.getElementById('modal-btn-no');
-    
-    const progressBar = document.getElementById('progress-bar');
-    const questionContainer = document.getElementById('question-container');
-    
-    const overallScoreEl = document.getElementById('overall-score');
-    const overallInterpretationEl = document.getElementById('overall-interpretation');
-    const recommendationsEl = document.getElementById('recommendations');
+    // --- ДАННЫЕ (Вместо базы данных) ---
 
-    // --- ДАННЫЕ И СОСТОЯНИЕ ---
-    let currentQuestionIndex = 0;
-    let userAnswers = []; // Хранит объекты {text, value}
-
-    // --- НАУЧНАЯ ОСНОВА: ТЕСТ GHQ-12 ---
-    const questions = [
-        { text: "Способны ли Вы были сосредоточиться на том, что Вы делаете?", options: [{ text: 'Больше, чем обычно', value: 0 }, { text: 'Так же, как обычно', value: 0 }, { text: 'Меньше, чем обычно', value: 1 }, { text: 'Значительно меньше', value: 1 }] },
-        { text: "Теряли ли Вы сон из-за беспокойства?", options: [{ text: 'Совсем нет', value: 0 }, { text: 'Не больше, чем обычно', value: 0 }, { text: 'Больше, чем обычно', value: 1 }, { text: 'Значительно больше', value: 1 }] },
-        { text: "Чувствовали ли Вы, что играете полезную роль в жизни?", options: [{ text: 'Больше, чем обычно', value: 0 }, { text: 'Так же, как обычно', value: 0 }, { text: 'Меньше, чем обычно', value: 1 }, { text: 'Значительно меньше', value: 1 }] },
-        { text: "Чувствовали ли Вы себя способным принимать решения?", options: [{ text: 'Больше, чем обычно', value: 0 }, { text: 'Так же, как обычно', value: 0 }, { text: 'Меньше, чем обычно', value: 1 }, { text: 'Значительно меньше', value: 1 }] },
-        { text: "Чувствовали ли Вы себя постоянно в напряжении или на грани?", options: [{ text: 'Совсем нет', value: 0 }, { text: 'Не больше, чем обычно', value: 0 }, { text: 'Больше, чем обычно', value: 1 }, { text: 'Значительно больше', value: 1 }] },
-        { text: "Чувствовали ли Вы, что не можете преодолеть свои трудности?", options: [{ text: 'Совсем нет', value: 0 }, { text: 'Не больше, чем обычно', value: 0 }, { text: 'Больше, чем обычно', value: 1 }, { text: 'Значительно больше', value: 1 }] },
-        { text: "Способны ли Вы были получать удовольствие от своей повседневной деятельности?", options: [{ text: 'Больше, чем обычно', value: 0 }, { text: 'Так же, как обычно', value: 0 }, { text: 'Меньше, чем обычно', value: 1 }, { text: 'Значительно меньше', value: 1 }] },
-        { text: "Способны ли Вы были справляться со своими проблемами?", options: [{ text: 'Больше, чем обычно', value: 0 }, { text: 'Так же, как обычно', value: 0 }, { text: 'Меньше, чем обычно', value: 1 }, { text: 'Значительно меньше', value: 1 }] },
-        { text: "Чувствовали ли Вы себя несчастным и подавленным?", options: [{ text: 'Совсем нет', value: 0 }, { text: 'Не больше, чем обычно', value: 0 }, { text: 'Больше, чем обычно', value: 1 }, { text: 'Значительно больше', value: 1 }] },
-        { text: "Теряли ли Вы уверенность в себе?", options: [{ text: 'Совсем нет', value: 0 }, { text: 'Не больше, чем обычно', value: 0 }, { text: 'Больше, чем обычно', value: 1 }, { text: 'Значительно больше', value: 1 }] },
-        { text: "Считали ли Вы себя никчемным человеком?", options: [{ text: 'Совсем нет', value: 0 }, { text: 'Не больше, чем обычно', value: 0 }, { text: 'Больше, чем обычно', value: 1 }, { text: 'Значительно больше', value: 1 }] },
-        { text: "Чувствовали ли Вы себя в целом достаточно счастливым, учитывая все обстоятельства?", options: [{ text: 'Больше, чем обычно', value: 0 }, { text: 'Так же, как обычно', value: 0 }, { text: 'Меньше, чем обычно', value: 1 }, { text: 'Значительно меньше', value: 1 }] }
+    const newsData = [
+        {
+            title: "Старт продаж нового BALANCER ADEPT",
+            date: "28 июля 2025",
+            content: "Встречайте новинку! Коктейль со вкусом «Кофе» — это идеальное сочетание пользы и удовольствия для вашего организма."
+        },
+        {
+            title: "Обновление в линейке AQUAmagic",
+            date: "15 июля 2025",
+            content: "Мы обновили дизайн и состав наших хитовых салфеток. Теперь они стали еще более эффективными и долговечными!"
+        },
+        {
+            title: "Летний Эко-Фестиваль Greenway",
+            date: "01 июля 2025",
+            content: "Спасибо всем, кто был с нами на ежегодном фестивале! Это было незабываемо. Фотоотчет уже доступен в наших соцсетях."
+        }
     ];
 
-    // --- ФУНКЦИИ ---
-
-    function showScreen(screenKey) {
-        for (const key in screens) {
-            screens[key].classList.remove('active');
+    const marathonsData = [
+        {
+            id: 'mara1',
+            title: "Марафон «Дом без химии»",
+            dateTime: "15 августа 2025, 12:00 МСК",
+            description: "За 7 дней мы научим вас, как полностью отказаться от бытовой химии, используя только продукцию Greenway. Вы узнаете секреты эффективной и экологичной уборки."
+        },
+        {
+            id: 'mara2',
+            title: "Бизнес-интенсив «Быстрый старт»",
+            dateTime: "22 августа 2025, 18:00 МСК",
+            description: "Этот марафон для новых партнеров. Мы расскажем о маркетинг-плане, научим работать с клиентами и поможем заработать первые деньги уже в первую неделю."
+        },
+        {
+            id: 'mara3',
+            title: "Марафон здоровья «Well-being»",
+            dateTime: "05 сентября 2025, 10:00 МСК",
+            description: "Погружение в мир БАДов и функционального питания Greenway. Узнайте, как поддерживать свое здоровье и энергию каждый день."
         }
-        screens[screenKey].classList.add('active');
-    }
+    ];
 
-    function displayQuestion() {
-        if (currentQuestionIndex < questions.length) {
-            const question = questions[currentQuestionIndex];
-            const progress = (currentQuestionIndex / questions.length) * 100;
+    const catalogData = {
+        "🏠 Уход за домом": [
+            { name: "Салфетка для стекла", price: "420 ₽", img: "https://greenwayglobal.com/media/products/02261EU.png" },
+            { name: "Диск «Инволвер»", price: "510 ₽", img: "https://greenwayglobal.com/media/products/02293EU.png" },
+            { name: "Паста «Мистик»", price: "350 ₽", img: "https://greenwayglobal.com/media/products/03301EU.png" },
+            { name: "Салфетка для посуды", price: "280 ₽", img: "https://greenwayglobal.com/media/products/02283EU.png" }
+        ],
+        "💄 Красота": [
+            { name: "Очищающий мусс Foet", price: "690 ₽", img: "https://greenwayglobal.com/media/products/02737.png" },
+            { name: "Маска-детокс с углём", price: "550 ₽", img: "https://greenwayglobal.com/media/products/02717.png" },
+            { name: "Скраб с кокосом", price: "880 ₽", img: "https://greenwayglobal.com/media/products/02704_.png" }
+        ],
+        "🌿 Здоровье (БАД)": [
+            { name: "Omega-3 Plus", price: "1100 ₽", img: "https://greenwayglobal.com/media/products/07021.png" },
+            { name: "U-Ген", price: "880 ₽", img: "https://greenwayglobal.com/media/products/07018.png" },
+            { name: "Antisweet", price: "880 ₽", img: "https://greenwayglobal.com/media/products/07014.png" }
+        ]
+    };
 
-            let optionsHTML = '<ul class="answer-options">';
-            question.options.forEach((option, index) => {
-                optionsHTML += `<li>${option.text}</li>`;
-            });
-            optionsHTML += '</ul>';
+    // --- ФУНКЦИИ РЕНДЕРИНГА (Отрисовки) ---
 
-            questionContainer.innerHTML = `
-                <p class="test-intro">Вопрос ${currentQuestionIndex + 1} из ${questions.length}.<br>Как вы себя чувствовали <strong>в последние несколько недель</strong>?</p>
-                <h4>${question.text}</h4>
-                ${optionsHTML}
+    function renderNews() {
+        const container = document.getElementById('news-tab');
+        container.innerHTML = '<h2>Лента новостей</h2>';
+        newsData.forEach(item => {
+            container.innerHTML += `
+                <div class="news-item">
+                    <h3>${item.title}</h3>
+                    <div class="date">${item.date}</div>
+                    <p>${item.content}</p>
+                </div>
             `;
-            
-            progressBar.style.width = `${progress}%`;
-            backQuestionBtn.style.display = currentQuestionIndex > 0 ? 'flex' : 'none';
+        });
+    }
 
-            const optionElements = questionContainer.querySelectorAll('.answer-options li');
-            optionElements.forEach(el => {
-                el.addEventListener('click', () => {
-                    optionElements.forEach(opt => opt.classList.remove('selected'));
-                    el.classList.add('selected');
-                    nextQuestionBtn.disabled = false;
-                });
-            });
-            
-            if (userAnswers[currentQuestionIndex]) {
-                const previousAnswerText = userAnswers[currentQuestionIndex].text;
-                const optionToSelect = Array.from(optionElements).find(el => el.innerText === previousAnswerText);
-                if (optionToSelect) {
-                    optionToSelect.classList.add('selected');
-                    nextQuestionBtn.disabled = false;
-                }
-            }
-
-        } else {
-            calculateResults();
-        }
+    function renderMarathons() {
+        const container = document.getElementById('marathons-tab');
+        container.innerHTML = '<h2>Ближайшие марафоны</h2>';
+        marathonsData.forEach(item => {
+            container.innerHTML += `
+                <div class="marathon-item">
+                    <div class="marathon-header" onclick="toggleMarathonDetails('${item.id}')">
+                        <h3>${item.title}</h3>
+                        <div class="datetime">${item.dateTime}</div>
+                    </div>
+                    <div class="marathon-details" id="${item.id}">
+                        <p>${item.description}</p>
+                        <a href="#" class="participate-btn" onclick="event.stopPropagation();">Участвовать</a>
+                    </div>
+                </div>
+            `;
+        });
     }
     
-    function calculateResults() {
-        const totalScore = userAnswers.reduce((sum, answer) => sum + answer.value, 0);
-        displayResults(totalScore);
-        showScreen('results');
+    function renderCatalog() {
+        const categoriesContainer = document.getElementById('category-buttons');
+        const categories = Object.keys(catalogData);
+        categoriesContainer.innerHTML = '';
+        categories.forEach(category => {
+            categoriesContainer.innerHTML += `<button class="category-button" onclick="renderProducts('${category}')">${category}</button>`;
+        });
+        // По умолчанию показываем товары из первой категории
+        renderProducts(categories[0]);
     }
     
-    function displayResults(score) {
-        let interpretation = '';
-        let scoreColor = 'var(--success-color)';
+    window.renderProducts = function(categoryName) {
+        const productsContainer = document.getElementById('product-list');
+        productsContainer.innerHTML = '';
+        const products = catalogData[categoryName];
+
+        products.forEach(product => {
+            productsContainer.innerHTML += `
+                <div class="product-card">
+                    <img src="${product.img}" alt="${product.name}">
+                    <h4>${product.name}</h4>
+                    <div class="price">${product.price}</div>
+                </div>
+            `;
+        });
         
-        if (score <= 2) {
-            interpretation = "Ваш результат указывает на низкий уровень психологического дистресса. Это отличный показатель благополучия.";
-        } else if (score <= 5) {
-            interpretation = "Ваш результат указывает на легкий или умеренный уровень дистресса. Стоит обратить внимание на свое состояние и использовать техники для релаксации.";
-            scoreColor = 'var(--warning-color)';
-        } else {
-            interpretation = "Высокий уровень дистресса. Результат говорит о значительном напряжении. Настоятельно рекомендуется обсудить свое состояние с психологом или врачом.";
-            scoreColor = 'var(--danger-color)';
-        }
-
-        overallScoreEl.textContent = `${score} из 12`;
-        overallScoreEl.style.color = scoreColor;
-        overallInterpretationEl.textContent = interpretation;
-        
-        recommendationsEl.innerHTML = '';
-        if (score > 2) {
-            recommendationsEl.innerHTML += `
-                <div class="recommendation-card" style="border-color: var(--warning-color);">
-                    <h4>Техники для управления стрессом</h4>
-                    <ul>
-                        <li><strong>Дыхательные практики:</strong> Попробуйте технику "4-7-8" для быстрого успокоения.</li>
-                        <li><strong>Осознанность:</strong> Уделяйте 5-10 минут в день на медитацию.</li>
-                        <li><strong>Физическая активность:</strong> Регулярные прогулки значительно улучшают настроение.</li>
-                    </ul>
-                </div>`;
-        }
-        if (score > 5) {
-            recommendationsEl.innerHTML += `
-                <div class="recommendation-card" style="border-color: var(--danger-color);">
-                    <h4>Важно позаботиться о себе</h4>
-                    <ul>
-                        <li><strong>Обращение к специалисту:</strong> Не стесняйтесь обратиться за профессиональной помощью.</li>
-                        <li><strong>Социальная поддержка:</strong> Поговорите о своих чувствах с близким человеком.</li>
-                        <li><strong>Цифровой детокс:</strong> Ограничьте время в соцсетях, особенно перед сном.</li>
-                    </ul>
-                </div>`;
-        }
-        if (recommendationsEl.innerHTML === '') {
-             recommendationsEl.innerHTML = `
-                <div class="recommendation-card" style="border-color: var(--success-color);">
-                    <h4>Поддержание благополучия</h4>
-                    <p>Ваше психологическое состояние в норме. Продолжайте заботиться о себе, поддерживать социальные связи и уделять время хобби, которые приносят вам радость!</p>
-                </div>`;
-        }
+        // Обновляем активную кнопку категории
+        document.querySelectorAll('.category-button').forEach(btn => {
+            btn.classList.toggle('active', btn.innerText === categoryName);
+        });
     }
+
+    // --- УПРАВЛЕНИЕ ВКЛАДКАМИ И СОБЫТИЯМИ ---
     
-    function resetApp() {
-        currentQuestionIndex = 0;
-        userAnswers = [];
-        nextQuestionBtn.disabled = true;
-        hideModal();
-        showScreen('welcome');
+    window.showTab = function(tabId) {
+        // Скрываем все вкладки
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        // Деактивируем все кнопки
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+
+        // Показываем нужную вкладку и активируем кнопку
+        document.getElementById(tabId + '-tab').classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
     }
 
-    function showModal() {
-        modal.classList.add('active');
+    window.toggleMarathonDetails = function(marathonId) {
+        const details = document.getElementById(marathonId);
+        details.classList.toggle('visible');
     }
-
-    function hideModal() {
-        modal.classList.remove('active');
-    }
-
-    // --- ОБРАБОТЧИКИ СОБЫТИЙ ---
-    startBtn.addEventListener('click', () => {
-        showScreen('test');
-        displayQuestion();
-    });
-
-    nextQuestionBtn.addEventListener('click', () => {
-        const selectedOptionEl = questionContainer.querySelector('.answer-options li.selected');
-        if (selectedOptionEl) {
-            const selectedText = selectedOptionEl.innerText;
-            const questionOptions = questions[currentQuestionIndex].options;
-            const selectedOptionData = questionOptions.find(opt => opt.text === selectedText);
-            
-            userAnswers[currentQuestionIndex] = selectedOptionData;
-           
-            currentQuestionIndex++;
-            nextQuestionBtn.disabled = true;
-
-            if (currentQuestionIndex < questions.length) {
-                displayQuestion();
-            } else {
-                calculateResults();
-            }
-        }
-    });
-
-    backQuestionBtn.addEventListener('click', () => {
-        if (currentQuestionIndex > 0) {
-            currentQuestionIndex--;
-            displayQuestion();
-        }
-    });
-    
-    backToMainBtn.addEventListener('click', resetApp); // <-- ИЗМЕНЕНИЕ
-    
-    homeBtn.addEventListener('click', showModal);
-    modalBtnNo.addEventListener('click', hideModal);
-    modalBtnYes.addEventListener('click', resetApp);
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            hideModal();
-        }
-    });
-
-    // --- ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ ---
-    showScreen('welcome');
+    window.contactMentor = function() {
+    const tg = window.Telegram.WebApp;
+    // ВАЖНО: Замените 'YOUR_MENTOR_USERNAME_HERE' на реальный юзернейм наставника в Telegram
+    tg.openTelegramLink('https://t.me/YOUR_MENTOR_USERNAME_HERE');
+}
+    // --- ПЕРВЫЙ ЗАПУСК ---
+    renderNews();
+    renderMarathons();
+    renderCatalog();
+    showTab('news'); // Начинаем с вкладки "Новости"
 });
