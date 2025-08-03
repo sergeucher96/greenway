@@ -3,88 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Greenway App</title>
+    <title>English Hub</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div id="app">
-        <!-- НАВИГАЦИЯ ПО ВКЛАДКАМ -->
-        <nav class="tabs">
-            <button id="btn-news" class="tab-button" onclick="showTab('news')">📰 Новости</button>
-            <button id="btn-marathons" class="tab-button" onclick="showTab('marathons')">🏆 Марафоны</button>
-            <button id="btn-catalog" class="tab-button" onclick="showTab('catalog')">🛍️ Каталог</button>
-            <button id="btn-newbie" class="tab-button active" onclick="showTab('newbie')">💡 Новичкам</button>
-        </nav>
-
-        <!-- ОСНОВНОЙ КОНТЕНТ -->
-        <main id="content">
-            <!-- ВКЛАДКА 1: НОВОСТИ (без изменений) -->
-            <div id="news-tab" class="tab-content"></div>
-
-            <!-- ВКЛАДКА 2: МАРАФОНЫ (без изменений) -->
-            <div id="marathons-tab" class="tab-content"></div>
-
-            <!-- ВКЛАДКА 3: КАТАЛОГ (без изменений) -->
-            <div id="catalog-tab" class="tab-content">
-                <div id="category-buttons"></div>
-                <div id="product-list"></div>
-            </div>
-
-            <!-- НОВАЯ ВКЛАДКА 4: ДЛЯ НОВИЧКОВ -->
-            <div id="newbie-tab" class="tab-content active">
-                <h2>Добро пожаловать в мир Greenway!</h2>
-                <p class="subtitle">Это больше, чем просто продукты. Это сообщество, экологичный образ жизни и возможность создать бизнес своей мечты.</p>
-                
-                <div class="section">
-                    <h3>Почему стоит присоединиться?</h3>
-                    <div class="benefits-grid">
-                        <div class="benefit-card">
-                            <div class="benefit-icon">💰</div>
-                            <div class="benefit-text">
-                                <h4>Дополнительный доход</h4>
-                                <p>Получайте бонусы с личных продаж и от работы вашей команды. Ваш доход не имеет потолка.</p>
-                            </div>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon">👥</div>
-                            <div class="benefit-text">
-                                <h4>Сильное сообщество</h4>
-                                <p>Вы никогда не будете одни. Вас ждет поддержка наставника и тысяч партнеров по всему миру.</p>
-                            </div>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon">🌍</div>
-                            <div class="benefit-text">
-                                <h4>Экологичная миссия</h4>
-                                <p>Помогайте планете, продвигая продукты, которые делают дома чище без использования химии.</p>
-                            </div>
-                        </div>
-                        <div class="benefit-card">
-                            <div class="benefit-icon">📈</div>
-                            <div class="benefit-text">
-                                <h4>Бесплатное обучение</h4>
-                                <p>Мы предоставляем все инструменты для роста: от вебинаров по продуктам до тренингов по продажам.</p>
-                            </div>
-                        </div>
+        <!-- 1. Главный экран -->
+        <div id="home-screen" class="screen active">
+            <header class="header">
+                <h1>English Hub</h1>
+                <p>Ваш помощник в изучении английского</p>
+            </header>
+            <main class="home-main">
+                <!-- Сетка кнопок быстрых действий -->
+                <div class="action-grid">
+                    <div id="courses-btn" class="action-button">
+                        <span class="icon">🎓</span>
+                        <span>Курсы</span>
+                    </div>
+                    <div id="lessons-btn" class="action-button">
+                        <span class="icon">📚</span>
+                        <span>Уроки</span>
+                    </div>
+                    <div id="teachers-btn" class="action-button">
+                        <span class="icon">👨‍🏫</span>
+                        <span>Для преподавателей</span>
+                    </div>
+                    <div id="book-lesson-btn" class="action-button">
+                        <span class="icon">🗓️</span>
+                        <span>Записаться на урок</span>
                     </div>
                 </div>
 
-                <div class="section">
-                    <h3>Как это работает? 3 простых шага</h3>
-                    <div class="steps-list">
-                        <div class="step-item"><span>1</span><p><b>Регистрация.</b> Вы бесплатно регистрируетесь по ссылке от вашего наставника и получаете доступ к личному кабинету.</p></div>
-                        <div class="step-item"><span>2</span><p><b>Активация.</b> Вы пробуете продукцию сами, убеждаетесь в ее качестве и получаете первые результаты. Это ваш ключ к успешным рекомендациям.</p></div>
-                        <div class="step-item"><span>3</span><p><b>Обучение и рост.</b> Вы подключаетесь к командным чатам, проходите обучение и начинаете рекомендовать продукцию, строя свою команду.</p></div>
-                    </div>
-                </div>
+                <!-- Список тестов -->
+                <h2 class="list-header">Пройти тестирование</h2>
+                <div id="test-list" class="test-list-container"></div>
+            </main>
+        </div>
 
-                <div class="cta-section">
-                    <h3>Готовы начать свой путь?</h3>
-                    <p>Нажмите кнопку ниже, чтобы связаться с наставником. Он ответит на все ваши вопросы и поможет зарегистрироваться.</p>
-                    <button class="participate-btn" onclick="contactMentor()">Связаться с наставником</button>
+        <!-- 2. Экран приветствия -->
+        <div id="welcome-screen" class="screen">
+            <header class="header">
+                <h1 id="welcome-title"></h1>
+            </header>
+            <main class="welcome-main">
+                <div id="welcome-description" class="description-block"></div>
+                <div id="welcome-level-table-container"></div>
+                <p class="time-warning">Время на выполнение: <strong id="welcome-time"></strong></p>
+            </main>
+            <footer class="welcome-footer">
+                <button id="start-test-button" class="button">Начать тест</button>
+                <button id="back-to-menu-button" class="button secondary">Назад к списку тестов</button>
+            </footer>
+        </div>
+        
+        <!-- 3. Экран теста -->
+        <div id="test-screen" class="screen">
+            <header class="test-header">
+                <div class="info-bar">
+                    <button id="back-button" class="header-button">← Назад</button>
+                    <div id="part-indicator"></div>
+                    <div id="timer"></div>
                 </div>
-            </div>
-        </main>
+                <div class="progress-container"><div id="progress-bar"></div></div>
+                <div id="question-counter"></div>
+            </header>
+            <main id="test-main" class="test-main">
+                <h2 id="question-text"></h2>
+                <div id="answer-options" class="options-grid"></div>
+            </main>
+        </div>
+
+        <!-- 4. Экран результатов -->
+        <div id="result-screen" class="screen">
+            <header class="header">
+                <h1>Ваш результат</h1>
+            </header>
+            <main class="results-main">
+                <div id="result-score-circle">
+                    <span id="final-score"></span>
+                    <small></small>
+                </div>
+                <h2 id="result-level"></h2>
+                <p id="result-description"></p>
+            </main>
+            <footer class="results-footer">
+                <button id="share-results-button" class="button">🚀 Поделиться результатом</button>
+                <button id="review-answers-button" class="button secondary">Посмотреть ответы</button>
+                <button id="restart-current-test-button" class="button secondary">Пройти этот тест заново</button>
+                <button id="home-from-results-button" class="button secondary">Вернуться в главное меню</button>
+            </footer>
+        </div>
+        
+        <!-- 5. Экран просмотра ответов -->
+        <div id="review-screen" class="screen">
+            <header class="header">
+                <h1>Просмотр ответов</h1>
+            </header>
+            <main id="review-container" class="review-container"></main>
+            <footer class="results-footer">
+                 <button id="back-to-results-button" class="button">Назад к результатам</button>
+            </footer>
+        </div>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
