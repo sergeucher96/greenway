@@ -245,15 +245,21 @@ document.addEventListener('DOMContentLoaded', () => {
         resultDescriptionEl.textContent = description;
     }
     
-    function shareResults() {
-        if (BOT_USERNAME === 'greenway_ruBot' || !BOT_USERNAME) { alert('Пожалуйста, укажите юзернейм вашего бота в файле script.js'); return; }
-        const botLink = `https://t.me/${BOT_USERNAME}`;
-        const scoreText = `${score} из ${currentTest.questions.length}`;
-        const levelText = finalLevelText ? ` (${finalLevelText})` : '';
-        const shareText = `Я прошел тест "${currentTest.title}" и получил результат: ${scoreText}${levelText}! 🥳\n\nСможешь лучше? Проверь свой уровень здесь! 👇`;
-        const url = `https://t.me/share/url?url=${encodeURIComponent(botLink)}&text=${encodeURIComponent(shareText)}`;
-        tg.openTelegramLink(url);
+function shareResults() {
+    if (BOT_USERNAME === 'greenway_ruBot' || !BOT_USERNAME) {
+        // ИСПОЛЬЗУЕМ alert() ВМЕСТО tg.showAlert()
+        alert('Пожалуйста, укажите юзернейм вашего бота в файле script.js');
+        return;
     }
+    const botLink = `https://t.me/${BOT_USERNAME}`;
+    const scoreText = `${score} из ${currentTest.questions.length}`;
+    const levelText = finalLevelText ? ` (${finalLevelText})` : '';
+    const shareText = `Я прошел тест "${currentTest.title}" и получил результат: ${scoreText}${levelText}! 🥳\n\nСможешь лучше? Проверь свой уровень здесь! 👇`;
+    const url = `https://t.me/share/url?url=${encodeURIComponent(botLink)}&text=${encodeURIComponent(shareText)}`;
+    
+    // Этот метод работает правильно и должен остаться
+    tg.openTelegramLink(url);
+}
     
     function showReview() {
         reviewContainer.innerHTML = '';
@@ -285,4 +291,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- ПЕРВЫЙ ЗАПУСК ---
     initHome();
 });
+
 
