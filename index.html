@@ -9,42 +9,87 @@
 <body>
 
     <div id="app">
-        <!-- 1. Главный экран -->
+        <!-- 1. Главный экран (Hub) -->
         <div id="home-screen" class="screen active">
             <header class="header">
                 <h1>English Hub</h1>
                 <p>Ваш помощник в изучении английского</p>
             </header>
             <main class="home-main">
-                <!-- Сетка кнопок быстрых действий -->
                 <div class="action-grid">
-                    <div id="courses-btn" class="action-button">
-                        <span class="icon">🎓</span>
-                        <span>Курсы</span>
-                    </div>
-                    <div id="lessons-btn" class="action-button">
-                        <span class="icon">📚</span>
-                        <span>Уроки</span>
-                    </div>
-                    <div id="teachers-btn" class="action-button">
-                        <span class="icon">👨‍🏫</span>
-                        <span>Для преподавателей</span>
-                    </div>
-                    <div id="book-lesson-btn" class="action-button">
-                        <span class="icon">🗓️</span>
-                        <span>Записаться на урок</span>
-                    </div>
+                    <div id="courses-btn" class="action-button"><span class="icon">🎓</span><span>Курсы</span></div>
+                    <div id="lessons-btn" class="action-button"><span class="icon">📚</span><span>Уроки</span></div>
+                    <div id="teachers-btn" class="action-button"><span class="icon">👨‍🏫</span><span>Для преподавателей</span></div>
+                    <div id="book-lesson-btn" class="action-button"><span class="icon">🗓️</span><span>Записаться на урок</span></div>
+                    <div id="testing-btn" class="action-button full-width"><span class="icon">📝</span><span>Пройти тестирование</span></div>
                 </div>
-
-                <!-- Список тестов -->
-                <h2 class="list-header">Пройти тестирование</h2>
-                <div id="test-list" class="test-list-container"></div>
             </main>
         </div>
 
-        <!-- 2. Экран приветствия -->
+        <!-- 2. Экран списка тестов -->
+        <div id="test-list-screen" class="screen">
+            <header class="screen-header">
+                <button id="tests-back-btn" class="back-button">← Назад</button>
+                <h1>Тестирование</h1>
+            </header>
+            <main id="test-list" class="list-container"></main>
+        </div>
+
+        <!-- 3. Экран списка курсов -->
+        <div id="courses-screen" class="screen">
+            <header class="screen-header">
+                <button id="courses-back-btn" class="back-button">← Назад</button>
+                <h1>Наши курсы</h1>
+            </header>
+            <main id="course-list" class="list-container"></main>
+        </div>
+
+        <!-- 4. Экран списка уроков -->
+        <div id="lessons-screen" class="screen">
+            <header class="screen-header">
+                <button id="lessons-back-btn" class="back-button">← Назад</button>
+                <h1>Библиотека уроков</h1>
+            </header>
+            <main id="lesson-list" class="list-container"></main>
+        </div>
+
+        <!-- 5. Экран "Для преподавателей" -->
+        <div id="teachers-screen" class="screen">
+            <header class="screen-header">
+                <button id="teachers-back-btn" class="back-button">← Назад</button>
+                <h1>Для преподавателей</h1>
+            </header>
+            <main class="teachers-main">
+                <button class="menu-button">Бесплатные материалы</button>
+                <button class="menu-button">Купить материалы</button>
+            </main>
+        </div>
+
+        <!-- 6. Экран "Запись на урок" -->
+        <div id="booking-screen" class="screen">
+            <header class="screen-header">
+                <button id="booking-back-btn" class="back-button">← Назад</button>
+                <h1>Запись на онлайн-урок</h1>
+            </header>
+            <main class="booking-main">
+                <form id="booking-form" class="booking-form">
+                    <div class="form-group">
+                        <label for="booking-date">Выберите дату:</label>
+                        <input type="date" id="booking-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="booking-time">Выберите время:</label>
+                        <input type="time" id="booking-time" required>
+                    </div>
+                    <button type="submit" class="button">Записаться</button>
+                </form>
+            </main>
+        </div>
+
+        <!-- 7. Экран приветствия теста -->
         <div id="welcome-screen" class="screen">
-            <header class="header">
+             <header class="screen-header">
+                <button id="welcome-back-btn" class="back-button">← Назад</button>
                 <h1 id="welcome-title"></h1>
             </header>
             <main class="welcome-main">
@@ -54,15 +99,14 @@
             </main>
             <footer class="welcome-footer">
                 <button id="start-test-button" class="button">Начать тест</button>
-                <button id="back-to-menu-button" class="button secondary">Назад к списку тестов</button>
             </footer>
         </div>
-        
-        <!-- 3. Экран теста -->
+
+        <!-- 8. Экран теста -->
         <div id="test-screen" class="screen">
             <header class="test-header">
                 <div class="info-bar">
-                    <button id="back-button" class="header-button">← Назад</button>
+                    <button id="test-back-btn" class="header-button">← Назад</button>
                     <div id="part-indicator"></div>
                     <div id="timer"></div>
                 </div>
@@ -75,7 +119,7 @@
             </main>
         </div>
 
-        <!-- 4. Экран результатов -->
+        <!-- 9. Экран результатов -->
         <div id="result-screen" class="screen">
             <header class="header">
                 <h1>Ваш результат</h1>
@@ -96,15 +140,13 @@
             </footer>
         </div>
         
-        <!-- 5. Экран просмотра ответов -->
+        <!-- 10. Экран просмотра ответов -->
         <div id="review-screen" class="screen">
-            <header class="header">
+            <header class="screen-header">
+                 <button id="review-back-btn" class="back-button">← Назад</button>
                 <h1>Просмотр ответов</h1>
             </header>
             <main id="review-container" class="review-container"></main>
-            <footer class="results-footer">
-                 <button id="back-to-results-button" class="button">Назад к результатам</button>
-            </footer>
         </div>
     </div>
 
