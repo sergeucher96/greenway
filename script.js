@@ -246,8 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
 function shareResults() {
-    if (BOT_USERNAME === 'greenway_ruBot' || !BOT_USERNAME) {
-        // ИСПОЛЬЗУЕМ alert() ВМЕСТО tg.showAlert()
+    // Теперь условие проверяет только, если BOT_USERNAME пустой или не задан
+    if (!BOT_USERNAME) { 
         alert('Пожалуйста, укажите юзернейм вашего бота в файле script.js');
         return;
     }
@@ -257,7 +257,6 @@ function shareResults() {
     const shareText = `Я прошел тест "${currentTest.title}" и получил результат: ${scoreText}${levelText}! 🥳\n\nСможешь лучше? Проверь свой уровень здесь! 👇`;
     const url = `https://t.me/share/url?url=${encodeURIComponent(botLink)}&text=${encodeURIComponent(shareText)}`;
     
-    // Этот метод работает правильно и должен остаться
     tg.openTelegramLink(url);
 }
     
@@ -291,5 +290,6 @@ function shareResults() {
     // --- ПЕРВЫЙ ЗАПУСК ---
     initHome();
 });
+
 
 
