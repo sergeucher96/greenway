@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tg.expand();
     
     // ВАЖНО: Замените 'YOUR_BOT_USERNAME_HERE' на реальный юзернейм вашего бота (без @)
-    const BOT_USERNAME = 'We_are_ladies';
+    const BOT_USERNAME = 'greenway_ruBot';
     const YOUR_CONTACT_LINK = `https://t.me/${BOT_USERNAME}`; 
 
     // ========================================================================
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function shareResults() {
-        if (BOT_USERNAME === 'We_are_ladies' || !BOT_USERNAME) { alert('Пожалуйста, укажите юзернейм вашего бота в файле script.js'); return; }
+        if (BOT_USERNAME === 'greenway_ruBot' || !BOT_USERNAME) { alert('Пожалуйста, укажите юзернейм вашего бота в файле script.js'); return; }
         const botLink = `https://t.me/${BOT_USERNAME}`;
         const scoreText = `${score} из ${currentTest.questions.length}`;
         const levelText = finalLevelText ? ` (${finalLevelText})` : '';
@@ -285,3 +285,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- ПЕРВЫЙ ЗАПУСК ---
     initHome();
 });
+
